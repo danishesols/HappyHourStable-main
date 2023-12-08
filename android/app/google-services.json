@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "74293911007",
+    "project_id": "happyhours-c15a8",
+    "storage_bucket": "happyhours-c15a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:74293911007:android:6788e1bcb5c3c72b57f86a",
+        "android_client_info": {
+          "package_name": "com.esols.imrankhan.happyhourapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "74293911007-22t1qatoqf442ufol2f15aar3j8a9r0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUu6BNQKu6sVPKg492PuPCyWzbbUYo6NM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "74293911007-22t1qatoqf442ufol2f15aar3j8a9r0h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
