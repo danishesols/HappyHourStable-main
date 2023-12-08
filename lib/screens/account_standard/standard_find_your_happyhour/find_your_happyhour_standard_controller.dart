@@ -21,6 +21,7 @@ enum LocationPermissionStatus {
 }
 
 class FindYourHappyHourStandardController extends GetxController {
+  double defualtRadius = 15.0;
   final AddReviewProvider _addReviewProvider = AddReviewProvider();
   final AddHappyHourProvider _addHappyHourProvider = AddHappyHourProvider();
 
@@ -71,6 +72,12 @@ class FindYourHappyHourStandardController extends GetxController {
     return true;
   }
 
+  updateRadius(double newRadius) {
+    defualtRadius = newRadius;
+    update();
+    fetchHours();
+  }
+
   Future<Position?> getCurrentPosition() async {
     final hasPermission = await handleLocationPermission();
     if (!hasPermission) {
@@ -101,8 +108,8 @@ class FindYourHappyHourStandardController extends GetxController {
         long: currentLoc.longitude,
         // lat: _locationData?.latitude ?? 33.704526937198345,
         // long: _locationData?.longitude ?? 73.07165924459696,
-       // rad: 10 * 1609.344,
-       rad: 30,
+       // rad: defualtRadius * 1609.344,
+        rad: defualtRadius,
         //rad: 10,
       )
           .listen((hours) async {
@@ -1021,5 +1028,3 @@ class MapModel {
     return {'hourIndex': hourIndex, 'times': times};
   }
 }
-
-

@@ -8,6 +8,7 @@ import 'package:happy_hour_app/global_controller/global_general_controller.dart'
 import 'package:happy_hour_app/global_widgets/circular_indicator.dart';
 import 'package:happy_hour_app/global_widgets/happyhour_card.dart';
 import 'package:happy_hour_app/screens/account_standard/standard_find_your_happyhour/find_your_happyhour_standard_controller.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 import '../../../routes/app_routes.dart';
 
 class StandardFindYourHappyHourScreen
@@ -175,6 +176,17 @@ class StandardFindYourHappyHourScreen
               //     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
               //   ),
               // ),
+                SizedBox(height: H * 0.03),
+              Padding(
+                padding:  EdgeInsets.only(left: Get.width*0.06),
+                child: const Text(
+                  "Select Miles in Radius",
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                ),
+              ),
+              radiusChangerSlider(),
+
+              SizedBox(height: H * 0.04),
               SizedBox(height: H * 0.009),
               GetBuilder<FindYourHappyHourStandardController>(
                 builder: (GetxController con) {
@@ -460,6 +472,27 @@ class StandardFindYourHappyHourScreen
       ),
     );
   }
+
+  radiusChangerSlider() {
+  return GetBuilder<FindYourHappyHourStandardController>(
+    builder: (contr) {
+      return SfSlider(
+           min: 0.0,
+           max: 30.0,
+           value: contr.defualtRadius,
+           interval: 5,
+           showTicks: true,
+           showLabels: true,
+           enableTooltip: true,
+           minorTicksPerInterval: 1,
+           onChanged: (dynamic value){
+          contr.updateRadius(value);
+           },
+         );
+    }
+  );
+}
+
 
   void showCustomDialog(BuildContext context) {
   showDialog(

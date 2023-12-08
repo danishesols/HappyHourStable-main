@@ -23,6 +23,8 @@ class FindYourHappyHourScreenController extends GetxController {
   LocationPermissionStatus locationPermissionStatus =
       LocationPermissionStatus.nullStatus;
   bool isLoading = false;
+
+  double defualtRadius=15;
   Future<bool> handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -66,6 +68,13 @@ class FindYourHappyHourScreenController extends GetxController {
     return true;
   }
 
+  updateRadius(double newRadius){
+    defualtRadius=newRadius;
+    update();
+    fetchHours();
+
+  }
+
   Future<Position?> getCurrentPosition() async {
     final hasPermission = await handleLocationPermission();
     if (!hasPermission) {
@@ -92,7 +101,7 @@ class FindYourHappyHourScreenController extends GetxController {
               // long: _locationData?.longitude ?? 73.07165924459696,
              //  rad: 15 * 1609.344,
                //rad :15 * 1609.344,
-              rad: 30,
+              rad: defualtRadius,
               //rad: 10,
               )
           .listen((hours) async {

@@ -17,6 +17,7 @@ import '../../account_standard/standard_find_your_happyhour/find_your_happyhour_
 class BusinessFindYourHappyHourScreenController extends GetxController {
   final AddReviewProvider _addReviewProvider = AddReviewProvider();
   final AddHappyHourProvider _addHappyHourProvider = AddHappyHourProvider();
+  double defualtRadius=15.0;
 
   void _launchURL(url) async {
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
@@ -28,6 +29,14 @@ class BusinessFindYourHappyHourScreenController extends GetxController {
   }
 
   String showTime = "";
+
+
+  updateRadius(double newRadius){
+    defualtRadius=newRadius;
+    update();
+     fetchHours();
+
+  }
 
   onehourAhead() {
     // hoursInRadiusList.sort(
@@ -116,7 +125,7 @@ class BusinessFindYourHappyHourScreenController extends GetxController {
         // lat: _locationData?.latitude ?? 33.704526937198345,
         // long: _locationData?.longitude ?? 73.07165924459696,
         // rad: 10 * 1609.344,
-         rad: 1000000.0,
+         rad: defualtRadius,
         //rad: 10,
       )
           .listen((hours) async {

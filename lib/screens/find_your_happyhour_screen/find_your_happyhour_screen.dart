@@ -6,6 +6,7 @@ import 'package:happy_hour_app/core/colors.dart';
 import 'package:happy_hour_app/core/constants.dart';
 import 'package:happy_hour_app/global_controller/global_general_controller.dart';
 import 'package:happy_hour_app/global_widgets/happyhour_card.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import '../../global_widgets/circular_indicator.dart';
 import '../../routes/app_routes.dart';
@@ -57,8 +58,7 @@ class FindYourHappyHourScreen
                     ),
                   ),
                   const Spacer(),
-                  GetBuilder<FindYourHappyHourScreenController>(
-                    builder: (con) {
+                  GetBuilder<FindYourHappyHourScreenController>(builder: (con) {
                     return SizedBox(
                       height: 35,
                       width: 100,
@@ -68,7 +68,10 @@ class FindYourHappyHourScreen
                           avatar: Image.asset(
                             "assets/images/Group 3809.png",
                           ),
-                          label: const Text("View Map" ,style: TextStyle(color: Colors.white),),
+                          label: const Text(
+                            "View Map",
+                            style: TextStyle(color: Colors.white),
+                          ),
                           backgroundColor: Colors.grey[400],
                           elevation: 5,
                         ),
@@ -77,10 +80,11 @@ class FindYourHappyHourScreen
                         // },
                         onTap: controller.isLoading
                             ? () {
-                                Get.find<GlobalGeneralController>().infoSnackbar(
-                                    title: 'Loading...',
-                                    description:
-                                        'Let the Happy Hours load first');
+                                Get.find<GlobalGeneralController>()
+                                    .infoSnackbar(
+                                        title: 'Loading...',
+                                        description:
+                                            'Let the Happy Hours load first');
                               }
                             : () {
                                 Get.toNamed(Routes.mapScreen,
@@ -116,10 +120,10 @@ class FindYourHappyHourScreen
                             //   width: 20,
                             // ),
                             SizedBox(
-                              height: 20,
-                              width: 20,
-                              child:Image.asset("assets/images/Group 11724.png")
-                            ),
+                                height: 20,
+                                width: 20,
+                                child: Image.asset(
+                                    "assets/images/Group 11724.png")),
                             const SizedBox(
                               width: 4,
                             ),
@@ -139,7 +143,17 @@ class FindYourHappyHourScreen
                 ],
               ),
 
-              SizedBox(height: H * 0.009),
+              SizedBox(height: H * 0.03),
+              Padding(
+                padding:  EdgeInsets.only(left: Get.width*0.06),
+                child: const Text(
+                  "Select Miles in Radius",
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                ),
+              ),
+              radiusChangerSlider(),
+
+              SizedBox(height: H * 0.04),
 
               //*Hour In 10 Miles Radius
               GetBuilder<FindYourHappyHourScreenController>(
@@ -148,7 +162,9 @@ class FindYourHappyHourScreen
                     isEnabled: controller.isLoading,
                     opacity: 0.7,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0,),
+                      padding: const EdgeInsets.only(
+                        bottom: 8.0,
+                      ),
                       child: controller.locationPermissionStatus !=
                                   LocationPermissionStatus.enabled &&
                               controller.isLoading == false
@@ -166,186 +182,198 @@ class FindYourHappyHourScreen
                               ),
                             )
                           : controller.hoursInRadiusList.isEmpty
-                          ? const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            "Currently there is no active Happy Hour",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16),
-                          ),
-                        ),
-                      )
-                          : ListView.builder(
-                             // itemCount: controller.hoursInRadiusList.length,
-                              itemCount: controller.hoursInRadiusList.length,
-                              shrinkWrap: true,
-                              physics: const ScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                // String time = controller.hoursInRadiusList[index].showTimeInCard?.first ?? "";
-                                // String time = controller
-                                //                 .hoursInRadiusList[index].day !=
-                                //             null &&
-                                //         controller.hoursInRadiusList[index].day!
-                                //             .isNotEmpty
-                                //     ? "${controller.hoursInRadiusList[index].day?[0]['HfromTime']}  - "
-                                //         "${controller.hoursInRadiusList[index].day?[0]['HtoTime']}"
-                                //     : controller.hoursInRadiusList[index]
-                                //                     .dayLate !=
-                                //                 null &&
-                                //             controller.hoursInRadiusList[index]
-                                //                 .dayLate!.isNotEmpty
-                                //         ? "${controller.hoursInRadiusList[index].dayLate?[0]['HfromTime2']}  - "
-                                //             "${controller.hoursInRadiusList[index].dayLate?[0]['HtoTime2']}"
-                                //         : controller.hoursInRadiusList[index]
-                                //                         .dailySpecils !=
-                                //                     null &&
-                                //                 controller
-                                //                     .hoursInRadiusList[index]
-                                //                     .dailySpecils!
-                                //                     .isNotEmpty
-                                //             ? "${controller.hoursInRadiusList[index].dailySpecils?[0]['fromTime']}  - "
-                                //                 "${controller.hoursInRadiusList[index].dailySpecils?[0]['toTime']}"
-                                //             : '';
-                                String time = controller.hoursInRadiusList[index].showTime ?? "";
-                                if (index % 4 == 3) {
-                                  return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        GestureDetector(
-                                          onTap: () =>
-                                              controller.onDirectionTap(
-                                                  "https://www.google.com/ads"),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Image.asset(
-                                                "assets/icons/Group 11527.png"),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: H * 0.012,
-                                        ),
-                                        CustomHappyhourCard(
-                                          title: controller
-                                              .hoursInRadiusList[index]
-                                              .businessName
-                                              .toString(),
-                                          image: controller
-                                              .hoursInRadiusList[index]
-                                              .menuImage
-                                              .toString(),
-                                          subtitle: controller
-                                              .hoursInRadiusList[index]
-                                              .businessAddress
-                                              .toString(),
-                                          timeIcon:
-                                              "assets/icons/Group 11432.svg",
-                                          time: time,
-                                          rating: RatingBarIndicator(
-                                            unratedColor: Colors.grey.shade300,
-                                            direction: Axis.horizontal,
-                                            rating: 0,
-                                            itemCount: 5,
-                                            itemSize: 20,
-                                            itemBuilder: (context, index) =>
-                                                Image.asset(
-                                              "assets/icons/Path 602@2x.png",
-                                              height: 7,
-                                              width: 10,
-                                              color: primary,
-                                            ),
-                                          ),
-                                          rateCount: controller
-                                                  .hoursInRadiusList[index]
-                                                  .reviewStar
-                                                  ?.length
-                                                  .toString() ??
-                                              "",
-                                          arrowImage: InkWell(
-                                            onTap: () {
-                                              controller.onDirectionTap(
-                                                  "https://www.google.com/maps/search/?api=1&query=${controller.hoursInRadiusList[index].latitude},${controller.hoursInRadiusList[index].longitude}");
-                                            },
-                                            child: Image.asset(
-                                              "assets/icons/Direction.png",
-                                              height: 60,
-                                              //color: whiteColor,
-                                            ),
-                                          ),
-                                          ontap: () {
-                                            controller.viewCount(controller
-                                                .hoursInRadiusList[index].hid);
-                                            //  print(controller.hoursInRadiusList[index].hid);
-
-                                            Get.toNamed(
-                                                Routes.happyHourDetailScreen,
-                                                arguments: controller
-                                                    .hoursInRadiusList[index]);
-                                          },
-                                        ),
-                                      ]);
-                                } else {
-                                  return CustomHappyhourCard(
-                                    title: controller
-                                        .hoursInRadiusList[index].businessName
-                                        .toString(),
-                                    image: controller
-                                        .hoursInRadiusList[index].menuImage
-                                        .toString(),
-                                    subtitle: controller
-                                        .hoursInRadiusList[index]
-                                        .businessAddress
-                                        .toString(),
-                                    timeIcon: "assets/icons/Group 11432.svg",
-                                    time: time,
-                                    rating: RatingBarIndicator(
-                                      unratedColor: Colors.grey.shade300,
-                                      direction: Axis.horizontal,
-                                      rating: 0,
-                                      itemCount: 5,
-                                      itemSize: 20,
-                                      itemBuilder: (context, index) =>
-                                          Image.asset(
-                                        "assets/icons/Path 602@2x.png",
-                                        height: 7,
-                                        width: 10,
-                                        color: primary,
-                                      ),
+                              ? const Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Currently there is no active Happy Hour",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
                                     ),
-                                    rateCount: controller
+                                  ),
+                                )
+                              : ListView.builder(
+                                  // itemCount: controller.hoursInRadiusList.length,
+                                  itemCount:
+                                      controller.hoursInRadiusList.length,
+                                  shrinkWrap: true,
+                                  physics: const ScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    // String time = controller.hoursInRadiusList[index].showTimeInCard?.first ?? "";
+                                    // String time = controller
+                                    //                 .hoursInRadiusList[index].day !=
+                                    //             null &&
+                                    //         controller.hoursInRadiusList[index].day!
+                                    //             .isNotEmpty
+                                    //     ? "${controller.hoursInRadiusList[index].day?[0]['HfromTime']}  - "
+                                    //         "${controller.hoursInRadiusList[index].day?[0]['HtoTime']}"
+                                    //     : controller.hoursInRadiusList[index]
+                                    //                     .dayLate !=
+                                    //                 null &&
+                                    //             controller.hoursInRadiusList[index]
+                                    //                 .dayLate!.isNotEmpty
+                                    //         ? "${controller.hoursInRadiusList[index].dayLate?[0]['HfromTime2']}  - "
+                                    //             "${controller.hoursInRadiusList[index].dayLate?[0]['HtoTime2']}"
+                                    //         : controller.hoursInRadiusList[index]
+                                    //                         .dailySpecils !=
+                                    //                     null &&
+                                    //                 controller
+                                    //                     .hoursInRadiusList[index]
+                                    //                     .dailySpecils!
+                                    //                     .isNotEmpty
+                                    //             ? "${controller.hoursInRadiusList[index].dailySpecils?[0]['fromTime']}  - "
+                                    //                 "${controller.hoursInRadiusList[index].dailySpecils?[0]['toTime']}"
+                                    //             : '';
+                                    String time = controller
                                             .hoursInRadiusList[index]
-                                            .reviewStar
-                                            ?.length
-                                            .toString() ??
-                                        "",
-                                    arrowImage: InkWell(
-                                      onTap: () {
-                                        controller.onDirectionTap(
-                                            "https://www.google.com/maps/search/?api=1&query=${controller.hoursInRadiusList[index].latitude},${controller.hoursInRadiusList[index].longitude}");
-                                      },
-                                      child: Image.asset(
-                                        "assets/icons/Direction.png",
-                                        height: 60,
-                                        //color: whiteColor,
-                                      ),
-                                    ),
-                                    ontap: () {
-                                      controller.viewCount(controller
-                                          .hoursInRadiusList[index].hid);
-                                      //  print(controller.hoursInRadiusList[index].hid);
+                                            .showTime ??
+                                        "";
+                                    if (index % 4 == 3) {
+                                      return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () =>
+                                                  controller.onDirectionTap(
+                                                      "https://www.google.com/ads"),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Image.asset(
+                                                    "assets/icons/Group 11527.png"),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: H * 0.012,
+                                            ),
+                                            CustomHappyhourCard(
+                                              title: controller
+                                                  .hoursInRadiusList[index]
+                                                  .businessName
+                                                  .toString(),
+                                              image: controller
+                                                  .hoursInRadiusList[index]
+                                                  .menuImage
+                                                  .toString(),
+                                              subtitle: controller
+                                                  .hoursInRadiusList[index]
+                                                  .businessAddress
+                                                  .toString(),
+                                              timeIcon:
+                                                  "assets/icons/Group 11432.svg",
+                                              time: time,
+                                              rating: RatingBarIndicator(
+                                                unratedColor:
+                                                    Colors.grey.shade300,
+                                                direction: Axis.horizontal,
+                                                rating: 0,
+                                                itemCount: 5,
+                                                itemSize: 20,
+                                                itemBuilder: (context, index) =>
+                                                    Image.asset(
+                                                  "assets/icons/Path 602@2x.png",
+                                                  height: 7,
+                                                  width: 10,
+                                                  color: primary,
+                                                ),
+                                              ),
+                                              rateCount: controller
+                                                      .hoursInRadiusList[index]
+                                                      .reviewStar
+                                                      ?.length
+                                                      .toString() ??
+                                                  "",
+                                              arrowImage: InkWell(
+                                                onTap: () {
+                                                  controller.onDirectionTap(
+                                                      "https://www.google.com/maps/search/?api=1&query=${controller.hoursInRadiusList[index].latitude},${controller.hoursInRadiusList[index].longitude}");
+                                                },
+                                                child: Image.asset(
+                                                  "assets/icons/Direction.png",
+                                                  height: 60,
+                                                  //color: whiteColor,
+                                                ),
+                                              ),
+                                              ontap: () {
+                                                controller.viewCount(controller
+                                                    .hoursInRadiusList[index]
+                                                    .hid);
+                                                //  print(controller.hoursInRadiusList[index].hid);
 
-                                      Get.toNamed(Routes.happyHourDetailScreen,
-                                          arguments: controller
-                                              .hoursInRadiusList[index]);
-                                    },
-                                  );
-                                }
-                              }),
+                                                Get.toNamed(
+                                                    Routes
+                                                        .happyHourDetailScreen,
+                                                    arguments: controller
+                                                            .hoursInRadiusList[
+                                                        index]);
+                                              },
+                                            ),
+                                          ]);
+                                    } else {
+                                      return CustomHappyhourCard(
+                                        title: controller
+                                            .hoursInRadiusList[index]
+                                            .businessName
+                                            .toString(),
+                                        image: controller
+                                            .hoursInRadiusList[index].menuImage
+                                            .toString(),
+                                        subtitle: controller
+                                            .hoursInRadiusList[index]
+                                            .businessAddress
+                                            .toString(),
+                                        timeIcon:
+                                            "assets/icons/Group 11432.svg",
+                                        time: time,
+                                        rating: RatingBarIndicator(
+                                          unratedColor: Colors.grey.shade300,
+                                          direction: Axis.horizontal,
+                                          rating: 0,
+                                          itemCount: 5,
+                                          itemSize: 20,
+                                          itemBuilder: (context, index) =>
+                                              Image.asset(
+                                            "assets/icons/Path 602@2x.png",
+                                            height: 7,
+                                            width: 10,
+                                            color: primary,
+                                          ),
+                                        ),
+                                        rateCount: controller
+                                                .hoursInRadiusList[index]
+                                                .reviewStar
+                                                ?.length
+                                                .toString() ??
+                                            "",
+                                        arrowImage: InkWell(
+                                          onTap: () {
+                                            controller.onDirectionTap(
+                                                "https://www.google.com/maps/search/?api=1&query=${controller.hoursInRadiusList[index].latitude},${controller.hoursInRadiusList[index].longitude}");
+                                          },
+                                          child: Image.asset(
+                                            "assets/icons/Direction.png",
+                                            height: 60,
+                                            //color: whiteColor,
+                                          ),
+                                        ),
+                                        ontap: () {
+                                          controller.viewCount(controller
+                                              .hoursInRadiusList[index].hid);
+                                          //  print(controller.hoursInRadiusList[index].hid);
+
+                                          Get.toNamed(
+                                              Routes.happyHourDetailScreen,
+                                              arguments: controller
+                                                  .hoursInRadiusList[index]);
+                                        },
+                                      );
+                                    }
+                                  }),
                     ),
                   );
                 },
@@ -495,8 +523,8 @@ class FindYourHappyHourScreen
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Image.asset(
-          //  "assets/icons/Group 9711.png",
-          "assets/images/new-banner2.png",
+            //  "assets/icons/Group 9711.png",
+            "assets/images/new-banner2.png",
             height: H * 0.16,
           ),
         ),
@@ -504,88 +532,102 @@ class FindYourHappyHourScreen
     );
   }
 
+  radiusChangerSlider() {
+    return GetBuilder<FindYourHappyHourScreenController>(builder: (contr) {
+      return SfSlider(
+        min: 0.0,
+        max: 30.0,
+        value: contr.defualtRadius,
+        interval: 5,
+        showTicks: true,
+        showLabels: true,
+        enableTooltip: true,
+        minorTicksPerInterval: 1,
+        onChanged: (dynamic value) {
+          contr.updateRadius(value);
+        },
+      );
+    });
+  }
 
-
-void showCustomDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Stack(
-              alignment: Alignment.topRight,
-              children: [
-                Container(
-                  height: 200.0,
-                  width: 200.0,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.0),
-                      topRight: Radius.circular(10.0),
-                    ),
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/coming-soon5.png'), // Replace with your image
-                      fit: BoxFit.cover,
+  void showCustomDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  Container(
+                    height: 200.0,
+                    width: 200.0,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        topRight: Radius.circular(10.0),
+                      ),
+                      image: DecorationImage(
+                        image: AssetImage(
+                            'assets/images/coming-soon5.png'), // Replace with your image
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                // Positioned(
-                //   top: 0,
-                //   right: 0,
-                //   child: IconButton(
-                //     icon: const Icon(Icons.close, color: Colors.yellow),
-                //     onPressed: () {
-                //       Navigator.of(context).pop();
-                //     },
-                //   ),
-                // ),
-              ],
-            ),
-            //const SizedBox(height: 100.0), // Set the height of the dialog
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: GestureDetector(
-                onTap: (){
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  height: 40,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    color: primary,
-                    borderRadius: BorderRadius.circular(8.0)
-                  ),
-                  child: const Center(
-                    child:  Text(
-                      'close',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.white,
+                  // Positioned(
+                  //   top: 0,
+                  //   right: 0,
+                  //   child: IconButton(
+                  //     icon: const Icon(Icons.close, color: Colors.yellow),
+                  //     onPressed: () {
+                  //       Navigator.of(context).pop();
+                  //     },
+                  //   ),
+                  // ),
+                ],
+              ),
+              //const SizedBox(height: 100.0), // Set the height of the dialog
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 150,
+                    decoration: BoxDecoration(
+                        color: primary,
+                        borderRadius: BorderRadius.circular(8.0)),
+                    child: const Center(
+                      child: Text(
+                        'close',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
+            ],
+          ),
+        );
+      },
+    );
+  }
 
 // Example usage
 // Call `showCustomDialog(context);` to display the dialog.
 
-
 // Example usage
 // Call `showCustomDialog(context);` to display the dialog.
-
 
 }
